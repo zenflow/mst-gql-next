@@ -1,5 +1,6 @@
 {
-  "name": "ssr-example",
+  "private": true,
+  "name": "mst-gql-next",
   "scripts": {
     "start:server": "node server",
     "scaffold": "mst-gql --roots Todo,User --excludes CacheControlScope,Query,Subscription --outDir src/models/ --format js http://localhost:4000/graphql",
