@@ -2,5 +2,6 @@
 /* eslint-disable */
 
 export * from "./TodoModel"
+export * from "./UserModel"
 export * from "./RootStore"
 export * from "./reactUtils"

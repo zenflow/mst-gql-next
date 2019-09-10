@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { observer } from 'mobx-react'
 import { useQuery } from '../src/models/reactUtils'
+import { todoModelPrimitives } from '../src/models'
 
 export default () => {
   const [showDoneTodos, setShowDoneTodos] = useState(false)
@@ -21,8 +22,10 @@ export default () => {
   )
 }
 
+const TODO_FRAGMENT = todoModelPrimitives.user(user => user.name)
+
 const AllTodosView = observer(() => {
-  const {loading, error, data, query} = useQuery(store => store.queryTodos())
+  const {loading, error, data, query} = useQuery(store => store.queryTodos({}, TODO_FRAGMENT))
   if (error) return error.message
   if (!data) return 'Loading...'
   return (
@@ -34,7 +37,7 @@ const AllTodosView = observer(() => {
 })
 
 const DoneTodosView = observer(() => {
-  const {loading, error, data, query} = useQuery(store => store.queryDoneTodos())
+  const {loading, error, data, query} = useQuery(store => store.queryDoneTodos({}, TODO_FRAGMENT))
   if (error) return error.message
   if (!data) return 'Loading...'
   return (
@@ -53,6 +56,7 @@ const TodosList = observer(({todos}) => {
           <span style={{textDecoration: todo.done ? 'line-through' : 'none'}}>
             {todo.text}
           </span>
+          {` (${todo.user.name}) `}
           <button onClick={todo.toggle}>
             toggle
           </button>

@@ -1,6 +1,5 @@
 import { TodoModelBase } from './TodoModel.base'
 
-/* graphql query fragment builders for TodoModel */
 export { selectFromTodo, todoModelPrimitives, TodoModelSelector } from './TodoModel.base'
 
 export const TodoModel = TodoModelBase
