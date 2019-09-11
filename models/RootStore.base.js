@@ -5,8 +5,6 @@ import { MSTGQLStore, configureStoreMixin } from "mst-gql"
 
 import { TodoModel } from "./TodoModel"
 import { todoModelPrimitives, TodoModelSelector } from "./TodoModel.base"
-import { UserModel } from "./UserModel"
-import { userModelPrimitives, UserModelSelector } from "./UserModel.base"
 
 
 /**
@@ -14,10 +12,9 @@ import { userModelPrimitives, UserModelSelector } from "./UserModel.base"
 */
 export const RootStoreBase = MSTGQLStore
   .named("RootStore")
-  .extend(configureStoreMixin([['Todo', () => TodoModel], ['User', () => UserModel]], ['Todo', 'User']))
+  .extend(configureStoreMixin([['Todo', () => TodoModel]], ['Todo']))
   .props({
-    todos: types.optional(types.map(types.late(() => TodoModel)), {}),
-    users: types.optional(types.map(types.late(() => UserModel)), {})
+    todos: types.optional(types.map(types.late(() => TodoModel)), {})
   })
   .actions(self => ({
     queryTodos(variables, resultSelector = todoModelPrimitives.toString(), options = {}) {
@@ -28,11 +25,6 @@ export const RootStoreBase = MSTGQLStore
     queryDoneTodos(variables, resultSelector = todoModelPrimitives.toString(), options = {}) {
       return self.query(`query doneTodos { doneTodos {
         ${typeof resultSelector === "function" ? resultSelector(new TodoModelSelector()).toString() : resultSelector}
-      } }`, variables, options)
-    },
-    queryUser(variables, resultSelector = userModelPrimitives.toString(), options = {}) {
-      return self.query(`query user($id: ID!) { user(id: $id) {
-        ${typeof resultSelector === "function" ? resultSelector(new UserModelSelector()).toString() : resultSelector}
       } }`, variables, options)
     },
     mutateToggleTodo(variables, resultSelector = todoModelPrimitives.toString(), optimisticUpdate) {

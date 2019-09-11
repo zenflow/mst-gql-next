@@ -3,32 +3,17 @@ const store = {
     {
       id: '0',
       text: 'Go to the shops',
-      done: false,
-      assignee: 'rsanchez'
+      done: true
     },
     {
       id: '1',
       text: 'Pick up the kids',
-      done: true,
-      assignee: 'msmith'
+      done: true
     },
     {
       id: '2',
       text: 'Install mst-gql',
-      done: false,
-      assignee: 'msmith'
-    }
-  ],
-  users: [
-    {
-      id: 'rsanchez',
-      name: 'Rick Sanchez',
-      likes: ['sex', 'technology', 'Kalaxian Crystals']
-    },
-    {
-      id: 'msmith',
-      name: 'Morty Smith',
-      likes: ['being a pussy', 'whatever']
+      done: true
     }
   ]
 }
@@ -36,8 +21,7 @@ const store = {
 const typeDefs = `
   type Query {
     todos: [Todo],
-    doneTodos: [Todo],
-    user(id: ID!): User
+    doneTodos: [Todo]
   }
   type Mutation {
     toggleTodo(id: ID!): Todo
@@ -45,26 +29,17 @@ const typeDefs = `
   type Todo {
     id: ID,
     text: String,
-    done: Boolean,
-    assignee: User
-  }
-  type User {
-    id: ID,
-    name: String,
-    likes: [String]
+    done: Boolean
   }
 `
 
 const resolvers = {
   Query: {
-    todos: (/*root, args, context*/) => {
+    todos: () => {
       return store.todos
     },
     doneTodos: () => {
       return store.todos.filter(todo => todo.done)
-    },
-    user: (root, args) => {
-      return store.users.find(user => user.id === args.id)
     }
   },
   Mutation: {
@@ -73,12 +48,7 @@ const resolvers = {
       todo.done = !todo.done
       return todo
     }
-  },
-  Todo: {
-    assignee: (todo) => {
-      return store.users.find(user => user.id === todo.assignee)
-    }
-  },
+  }
 }
 
 module.exports = {

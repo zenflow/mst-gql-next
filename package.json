@@ -3,7 +3,7 @@
   "name": "mst-gql-next",
   "scripts": {
     "start:server": "node server",
-    "scaffold": "mst-gql --roots Todo,User --outDir models/ --format js http://localhost:4000/graphql",
+    "scaffold": "mst-gql --roots Todo --outDir models/ --format js http://localhost:4000/graphql",
     "client:dev": "next",
     "client:build": "next build",
     "start:client": " next start",
