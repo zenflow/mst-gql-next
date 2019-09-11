@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { observer } from 'mobx-react'
-import { useQuery } from '../src/models/reactUtils'
-import { todoModelPrimitives } from '../src/models'
+import { useQuery } from '../models/reactUtils'
+import { selectFromTodo, selectFromUser } from '../models'
 
-export default () => {
+export default function Index () {
   const [showDoneTodos, setShowDoneTodos] = useState(false)
   return (
     <>
@@ -22,10 +22,15 @@ export default () => {
   )
 }
 
-const TODO_FRAGMENT = todoModelPrimitives.user(user => user.name)
+const todoFragment = selectFromTodo()
+  .text
+  .done
+  .assignee(user => user.name)
 
 const AllTodosView = observer(() => {
-  const {loading, error, data, query} = useQuery(store => store.queryTodos({}, TODO_FRAGMENT))
+  const {error, data, loading, query} = useQuery(store => {
+    return store.queryTodos({}, todoFragment)
+  })
   if (error) return error.message
   if (!data) return 'Loading...'
   return (
@@ -37,7 +42,9 @@ const AllTodosView = observer(() => {
 })
 
 const DoneTodosView = observer(() => {
-  const {loading, error, data, query} = useQuery(store => store.queryDoneTodos({}, TODO_FRAGMENT))
+  const {error, data, loading, query} = useQuery(store => {
+    return store.queryDoneTodos({}, todoFragment)
+  })
   if (error) return error.message
   if (!data) return 'Loading...'
   return (
@@ -56,7 +63,9 @@ const TodosList = observer(({todos}) => {
           <span style={{textDecoration: todo.done ? 'line-through' : 'none'}}>
             {todo.text}
           </span>
-          {` (${todo.user.name}) `}
+          &emsp;
+          Assignee: <UserView user={todo.assignee}/>
+          &emsp;
           <button onClick={todo.toggle}>
             toggle
           </button>
@@ -64,4 +73,16 @@ const TodosList = observer(({todos}) => {
       ))}
     </ul>
   )
+})
+
+const userFragment = selectFromUser()
+  .name
+  .likes
+
+const UserView = observer(({user}) => {
+  const {error, data, loading, query} = useQuery(store => {
+    return user && store.queryUser({id: user.id}, userFragment)
+  })
+  if (error) return error.message
+  return `${user.id}  (${user.name}, likes ${data ? data.user.likes.join() : '?'})`
 })

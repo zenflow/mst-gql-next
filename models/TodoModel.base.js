@@ -18,7 +18,7 @@ export const TodoModelBase = MSTGQLObject
     id: types.identifier,
     text: types.maybeNull(types.string),
     done: types.maybeNull(types.boolean),
-    user: types.maybeNull(MSTGQLRef(types.late(() => UserModel))),
+    assignee: types.maybeNull(MSTGQLRef(types.late(() => UserModel))),
   })
   .views(self => ({
     get store() {
@@ -30,7 +30,7 @@ export class TodoModelSelector extends QueryBuilder {
   get id() { return this.__attr(`id`) }
   get text() { return this.__attr(`text`) }
   get done() { return this.__attr(`done`) }
-  user(builder) { return this.__child(`user`, UserModelSelector, builder) }
+  assignee(builder) { return this.__child(`assignee`, UserModelSelector, builder) }
 }
 export function selectFromTodo() {
   return new TodoModelSelector()

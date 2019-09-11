@@ -1,32 +1,34 @@
 const store = {
   todos: [
     {
-      id: 0,
+      id: '0',
       text: 'Go to the shops',
       done: false,
-      user_id: 'rsanchez'
+      assignee: 'rsanchez'
     },
     {
-      id: 1,
+      id: '1',
       text: 'Pick up the kids',
       done: true,
-      user_id: 'msmith'
+      assignee: 'msmith'
     },
     {
-      id: 2,
+      id: '2',
       text: 'Install mst-gql',
       done: false,
-      user_id: 'msmith'
+      assignee: 'msmith'
     }
   ],
   users: [
     {
       id: 'rsanchez',
       name: 'Rick Sanchez',
+      likes: ['sex', 'technology', 'Kalaxian Crystals']
     },
     {
       id: 'msmith',
       name: 'Morty Smith',
+      likes: ['being a pussy', 'whatever']
     }
   ]
 }
@@ -35,7 +37,7 @@ const typeDefs = `
   type Query {
     todos: [Todo],
     doneTodos: [Todo],
-    users: [User]
+    user(id: ID!): User
   }
   type Mutation {
     toggleTodo(id: ID!): Todo
@@ -44,11 +46,12 @@ const typeDefs = `
     id: ID,
     text: String,
     done: Boolean,
-    user: User
+    assignee: User
   }
   type User {
     id: ID,
-    name: String
+    name: String,
+    likes: [String]
   }
 `
 
@@ -60,20 +63,20 @@ const resolvers = {
     doneTodos: () => {
       return store.todos.filter(todo => todo.done)
     },
-    users: () => {
-      return store.users
+    user: (root, args) => {
+      return store.users.find(user => user.id === args.id)
     }
   },
   Mutation: {
     toggleTodo: (root, args) => {
-      const todo = store.todos[args.id]
+      const todo = store.todos.find(todo => todo.id === args.id)
       todo.done = !todo.done
       return todo
     }
   },
   Todo: {
-    user: (root) => {
-      return store.users.find(user => user.id === root.user_id)
+    assignee: (todo) => {
+      return store.users.find(user => user.id === todo.assignee)
     }
   },
 }

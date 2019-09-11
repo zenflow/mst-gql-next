@@ -1,15 +1,18 @@
 import React from 'react'
 import { applySnapshot, getSnapshot } from 'mobx-state-tree'
-import { createHttpClient, getDataFromTree } from 'mst-gql'
+import { createHttpClient } from 'mst-gql'
 import App from 'next/app'
-import { RootStore, StoreContext } from '../src/models'
+import reactTestRenderer from 'react-test-renderer'
+import { RootStore, StoreContext } from '../models'
+
+const isServer = !process.browser
 
 let store
 export function getStore (snapshot = null) {
-  if (!process.browser || !store) {
+  if (isServer || !store) {
     store = RootStore.create(undefined, {
       gqlHttpClient: createHttpClient('http://localhost:4000/graphql'),
-      ssr: !process.browser,
+      ssr: isServer,
     })
   }
   if (snapshot) {
@@ -18,19 +21,26 @@ export function getStore (snapshot = null) {
   return store
 }
 
+// Custom implementation of `mst-gql`s getDataFromTree to support getting queries that start only after another query finishes
+async function getDataFromTree (tree, store) {
+  const renderer = reactTestRenderer.create(tree)
+  while (store.__promises.size > 0) {
+    // console.log(`awaiting ${store.__promises.size} promises...`)
+    await Promise.all(store.__promises)
+  }
+  renderer.unmount()
+}
+
 export default class MyApp extends App {
   static async getInitialProps ({Component, router, ctx}) {
     const store = getStore()
 
-    const pageProps = (await Component.getInitialProps?.({...ctx, store})) ?? {}
-    // const pageProps = (Component.getInitialProps && await Component.getInitialProps({...ctx, store})) || {}
+    const pageProps = (Component.getInitialProps && await Component.getInitialProps({...ctx, store})) || {}
 
     let storeSnapshot
-    if (!process.browser) {
-      await getDataFromTree(
-        <MyApp Component={Component} router={router} pageProps={pageProps} store={store}/>,
-        store
-      )
+    if (isServer) {
+      const tree = <MyApp Component={Component} router={router} pageProps={pageProps} store={store}/>
+      await getDataFromTree(tree, store)
       storeSnapshot = getSnapshot(store)
     }
 

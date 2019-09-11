@@ -3,7 +3,7 @@
   "name": "mst-gql-next",
   "scripts": {
     "start:server": "node server",
-    "scaffold": "mst-gql --roots Todo,User --excludes CacheControlScope,Query,Subscription --outDir src/models/ --format js http://localhost:4000/graphql",
+    "scaffold": "mst-gql --roots Todo,User --outDir models/ --format js http://localhost:4000/graphql",
     "client:dev": "next",
     "client:build": "next build",
     "start:client": " next start",
@@ -20,11 +20,8 @@
     "mst-gql": "^0.4.0",
     "next": "^9.0.5",
     "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "react-dom": "^16.9.0",
+    "react-test-renderer": "^16.9.0"
   },
-  "devDependencies": {
-    "@babel/plugin-proposal-decorators": "^7.6.0",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.4.4",
-    "@babel/plugin-proposal-optional-chaining": "^7.6.0"
-  }
+  "devDependencies": {}
 }

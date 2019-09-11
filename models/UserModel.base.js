@@ -15,6 +15,7 @@ export const UserModelBase = MSTGQLObject
     __typename: types.optional(types.literal("User"), "User"),
     id: types.identifier,
     name: types.maybeNull(types.string),
+    likes: types.optional(types.array(types.string), []),
   })
   .views(self => ({
     get store() {
@@ -25,9 +26,10 @@ export const UserModelBase = MSTGQLObject
 export class UserModelSelector extends QueryBuilder {
   get id() { return this.__attr(`id`) }
   get name() { return this.__attr(`name`) }
+  get likes() { return this.__attr(`likes`) }
 }
 export function selectFromUser() {
   return new UserModelSelector()
 }
 
-export const userModelPrimitives = selectFromUser().name
+export const userModelPrimitives = selectFromUser().name.likes

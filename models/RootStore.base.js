@@ -30,8 +30,8 @@ export const RootStoreBase = MSTGQLStore
         ${typeof resultSelector === "function" ? resultSelector(new TodoModelSelector()).toString() : resultSelector}
       } }`, variables, options)
     },
-    queryUsers(variables, resultSelector = userModelPrimitives.toString(), options = {}) {
-      return self.query(`query users { users {
+    queryUser(variables, resultSelector = userModelPrimitives.toString(), options = {}) {
+      return self.query(`query user($id: ID!) { user(id: $id) {
         ${typeof resultSelector === "function" ? resultSelector(new UserModelSelector()).toString() : resultSelector}
       } }`, variables, options)
     },
