@@ -5,9 +5,10 @@
     "start:server": "node server",
     "scaffold": "mst-gql --roots Todo,User --outDir models/ --format js http://localhost:4000/graphql",
     "client:dev": "next",
-    "client:build": "next build",
-    "start:client": " next start",
-    "start": "run-p start:server client:dev"
+    "dev": "run-p start:server client:dev",
+    "build": "next build",
+    "start:client": "next start",
+    "start": "run-p start:server start:client"
   },
   "dependencies": {
     "apollo-server": "^2.9.3",
@@ -19,6 +20,7 @@
     "mobx-state-tree": "^3.14.1",
     "mst-gql": "^0.4.0",
     "next": "^9.0.5",
+    "npm-run-all": "^4.1.5",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-test-renderer": "^16.9.0"
