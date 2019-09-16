@@ -1,15 +1,35 @@
-const { ApolloServer } = require("apollo-server")
+const {promisify} = require('util')
+const express = require('express')
+const {ApolloServer} = require('apollo-server-express')
+const next = require('next')
+const {resolvers, typeDefs} = require('./schema')
+const {ApolloDedupeExtension} = require('./ApolloDedupeExtension')
+const {dev, port} = require('./env')
 
-const { typeDefs, resolvers } = require("./schema")
+async function main () {
+  const expressServer = express()
 
-const PORT = 4000
+  const apolloServer = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: ({req}) => ({req}),
+    extensions: [() => new ApolloDedupeExtension()],
+  })
+  apolloServer.applyMiddleware({
+    app: expressServer,
+    path: '/api/graphql'
+  })
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  cors: true
-})
+  const nextServer = next({dev})
+  await nextServer.prepare()
+  expressServer.all("*", nextServer.getRequestHandler())
 
-server.listen(PORT).then(({ url }) => {
-  console.log(`🚀 Server ready at ${url}`)
+  const listenFn = promisify(expressServer.listen.bind(expressServer))
+  await listenFn(port)
+  console.log(`> Ready on http://localhost:${port}`)
+}
+
+main().catch(error => {
+  console.error(error)
+  process.exit(1)
 })

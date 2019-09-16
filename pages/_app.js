@@ -1,17 +1,24 @@
-import React from 'react'
 import { applySnapshot, getSnapshot } from 'mobx-state-tree'
 import { createHttpClient } from 'mst-gql'
 import App from 'next/app'
+import Head from 'next/head'
 import reactTestRenderer from 'react-test-renderer'
 import { RootStore, StoreContext } from '../models'
+import {port} from '../server/env'
 
 const isServer = !process.browser
+const selfHost = process.browser ? global.location.host : `localhost:${port}`
 
 let store
+
 export function getStore (snapshot = null) {
   if (isServer || !store) {
     store = RootStore.create(undefined, {
-      gqlHttpClient: createHttpClient('http://localhost:4000/graphql'),
+      gqlHttpClient: createHttpClient(`http://${selfHost}/api/graphql`, {
+        headers: {
+          'x-graphql-deduplicate': '1',
+        }
+      }),
       ssr: isServer,
     })
   }
@@ -39,8 +46,17 @@ export default class MyApp extends App {
 
     let storeSnapshot
     if (isServer) {
-      const tree = <MyApp Component={Component} router={router} pageProps={pageProps} store={store}/>
+      const tree = <MyApp {...({Component, router, pageProps, store})}/>
       await getDataFromTree(tree, store)
+
+      /** Head.rewind()
+       *  Is that necessary?
+       *    > getDataFromTree does not call componentWillUnmount
+       *    > head side effect therefore need to be cleared manually
+       *      - https://github.com/zeit/next.js/blob/fe7c7342c7d6ba91c5802b01cf24b60da9f3d065/examples/api-routes-apollo-server-and-client/apollo/client.js#L84-L86
+       *  Is that really true?
+       */
+
       storeSnapshot = getSnapshot(store)
     }
 
@@ -50,7 +66,7 @@ export default class MyApp extends App {
   constructor (props) {
     super(props)
     this.store = props.store || getStore(props.storeSnapshot)
-    global.store = this.store // for debugging
+    Object.assign(global, {store: this.store}) // for debugging
   }
 
   render () {
