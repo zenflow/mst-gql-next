@@ -35,6 +35,11 @@ export const RootStoreBase = MSTGQLStore
         ${typeof resultSelector === "function" ? resultSelector(new UserModelSelector()).toString() : resultSelector}
       } }`, variables, options)
     },
+    queryUsers(variables, resultSelector = userModelPrimitives.toString(), options = {}) {
+      return self.query(`query users { users {
+        ${typeof resultSelector === "function" ? resultSelector(new UserModelSelector()).toString() : resultSelector}
+      } }`, variables, options)
+    },
     mutateToggleTodo(variables, resultSelector = todoModelPrimitives.toString(), optimisticUpdate) {
       return self.mutate(`mutation toggleTodo($id: ID!) { toggleTodo(id: $id) {
         ${typeof resultSelector === "function" ? resultSelector(new TodoModelSelector()).toString() : resultSelector}

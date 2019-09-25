@@ -10,7 +10,7 @@ const store = {
       id: '1',
       text: 'Pick up the kids',
       done: true,
-      assignee: 'msmith'
+      assignee: null
     },
     {
       id: '2',
@@ -32,5 +32,12 @@ const store = {
     }
   ]
 }
+
+// Force frequently changing data in user
+setInterval(() => {
+  store.users.forEach(user => {
+    user.name = user.name.split(' ').reverse().join(' ')
+  })
+}, 500)
 
 module.exports = { store }

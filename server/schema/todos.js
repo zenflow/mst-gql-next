@@ -3,16 +3,16 @@ const {store} = require('../store')
 module.exports = {
   typeDefs: `
     extend type Query {
-      todos: [Todo],
-      doneTodos: [Todo],
+      todos: [Todo]!,
+      doneTodos: [Todo]!,
     }
     extend type Mutation {
       toggleTodo(id: ID!): Todo
     }
     type Todo {
-      id: ID,
-      text: String,
-      done: Boolean,
+      id: ID!,
+      text: String!,
+      done: Boolean!,
       assignee: User
     }
   `,

@@ -1395,6 +1395,18 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
+"@zen_flow/mst-gql@^0.5.0-canary.1":
+  version "0.5.0-canary.1"
+  resolved "https://registry.yarnpkg.com/@zen_flow/mst-gql/-/mst-gql-0.5.0-canary.1.tgz#e5e7c674c355b4e9838ec6e15f9de3b7c2907dd1"
+  integrity sha512-GNFuJO8Qz67wN/W4tAa8nNDSdswH4VttMTCPAwRgpi2eHjB6aKOyeLA+OEz5yMM9GNGkYlJIXU6o/Peq4kACEQ==
+  dependencies:
+    apollo "^2.16.3"
+    arg "^4.1.1"
+    cosmiconfig "^5.2.1"
+    fast-json-stable-stringify "^2.0.0"
+    graphql "14.3.0"
+    graphql-request "^1.8.2"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -5042,18 +5054,6 @@ ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
-mst-gql@^0.4.0:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/mst-gql/-/mst-gql-0.4.1.tgz#1ec6367d84c6bea051c659055be132dfdccf3d75"
-  integrity sha512-M2nEViUOEqlKIfrVOw/WlGZKpLTk4KuL4Tze6Nc3ACKsUrk7n14iqOIdcqd62orWfO1jCVtEVrOh1KtjiCQzmQ==
-  dependencies:
-    apollo "^2.16.3"
-    arg "^4.1.1"
-    cosmiconfig "^5.2.1"
-    fast-json-stable-stringify "^2.0.0"
-    graphql "14.3.0"
-    graphql-request "^1.8.2"
-
 nan@^2.12.1:
   version "2.14.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.0.tgz#7818f722027b2459a86f0295d434d1fc2336c52c"
@@ -6008,20 +6008,10 @@ react-is@16.8.6:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
   integrity sha512-aUk3bHfZ2bRSVFFbbeVS4i+lNPZr3/WM5jT2J5omUVV1zzcs1nAaf3l51ctA5FFvCRbhrH0bdAsRRQddFJZPtA==
 
-react-is@^16.8.1, react-is@^16.9.0:
+react-is@^16.8.1:
   version "16.9.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.9.0.tgz#21ca9561399aad0ff1a7701c01683e8ca981edcb"
   integrity sha512-tJBzzzIgnnRfEm046qRcURvwQnZVXmuCbscxUO5RWrGTXpon2d4c8mI0D8WE6ydVIm29JiLB6+RslkIvym9Rjw==
-
-react-test-renderer@^16.9.0:
-  version "16.9.0"
-  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.9.0.tgz#7ed657a374af47af88f66f33a3ef99c9610c8ae9"
-  integrity sha512-R62stB73qZyhrJo7wmCW9jgl/07ai+YzvouvCXIJLBkRlRqLx4j9RqcLEAfNfU3OxTGucqR2Whmn3/Aad6L3hQ==
-  dependencies:
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    react-is "^16.9.0"
-    scheduler "^0.15.0"
 
 react@^16.9.0:
   version "16.9.0"

@@ -1,8 +1,7 @@
 import { applySnapshot, getSnapshot } from 'mobx-state-tree'
-import { createHttpClient } from 'mst-gql'
+import { createHttpClient, getDataFromTree } from 'mst-gql'
 import App from 'next/app'
 import Head from 'next/head'
-import reactTestRenderer from 'react-test-renderer'
 import { RootStore, StoreContext } from '../models'
 import {port} from '../server/env'
 
@@ -19,23 +18,13 @@ export function getStore (snapshot = null) {
           'x-graphql-deduplicate': '1',
         }
       }),
-      ssr: isServer,
+      ssr: true,
     })
   }
   if (snapshot) {
     applySnapshot(store, snapshot)
   }
   return store
-}
-
-// Custom implementation of `mst-gql`s getDataFromTree to support getting queries that start only after another query finishes
-async function getDataFromTree (tree, store) {
-  const renderer = reactTestRenderer.create(tree)
-  while (store.__promises.size > 0) {
-    // console.log(`awaiting ${store.__promises.size} promises...`)
-    await Promise.all(store.__promises)
-  }
-  renderer.unmount()
 }
 
 export default class MyApp extends App {

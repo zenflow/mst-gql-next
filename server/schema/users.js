@@ -4,11 +4,13 @@ module.exports = {
   typeDefs: `
     extend type Query {
       user(id: ID!): User
+      users: [User]!
     }
     type User {
-      id: ID,
-      name: String,
-      likes: [String]
+      id: ID!,
+      name: String!
+      likes: [String]!
+      unobservedProp: String
     }
   `,
   resolvers: {
@@ -16,7 +18,14 @@ module.exports = {
       user: (root, args) => {
         return store.users.find(user => user.id === args.id)
       },
+      users: () => {
+        return store.users
+      },
     },
-    User: {},
+    User: {
+      unobservedProp: (user) => {
+        return 'foo'
+      }
+    },
   },
 }
