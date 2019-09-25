@@ -1395,10 +1395,10 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@zen_flow/mst-gql@^0.5.0-canary.1":
-  version "0.5.0-canary.1"
-  resolved "https://registry.yarnpkg.com/@zen_flow/mst-gql/-/mst-gql-0.5.0-canary.1.tgz#e5e7c674c355b4e9838ec6e15f9de3b7c2907dd1"
-  integrity sha512-GNFuJO8Qz67wN/W4tAa8nNDSdswH4VttMTCPAwRgpi2eHjB6aKOyeLA+OEz5yMM9GNGkYlJIXU6o/Peq4kACEQ==
+"@zen_flow/mst-gql@^0.5.0-canary.2":
+  version "0.5.0-canary.2"
+  resolved "https://registry.yarnpkg.com/@zen_flow/mst-gql/-/mst-gql-0.5.0-canary.2.tgz#693100b02bd1252713eaeb4b11a4ec9f9e84c9cb"
+  integrity sha512-UqFhl5evcGJrfWku+cZ7ZxLNYgll8k+W5l8YYN5WqIdlkN0rVssRJb7RtH7v/qrYir8qLZYduO4jkdcQe/uqfQ==
   dependencies:
     apollo "^2.16.3"
     arg "^4.1.1"

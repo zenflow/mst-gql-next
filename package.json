@@ -8,7 +8,7 @@
     "start": "cross-env NODE_ENV=production node server/index.js"
   },
   "dependencies": {
-    "@zen_flow/mst-gql": "^0.5.0-canary.1",
+    "@zen_flow/mst-gql": "^0.5.0-canary.2",
     "apollo-server-express": "^2.9.3",
     "cross-env": "^5.2.1",
     "express": "^4.17.1",
